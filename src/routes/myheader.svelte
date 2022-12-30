@@ -1,12 +1,34 @@
 
 
 <nav>
+    <div class="sidebar" 	
+    class:active={isHidden} on:blur={isHidden = !isHidden}>
+        {#if hidden} 
+        <a href="/login">
+        <div class="profile-container2">
+            <h1>{profilename}</h1> <img src="{profileimg}" alt="">
+        </div>
+        </a>
+        {/if}
+        <ul>
+        <li>🏘️ HOME</li>
+        <li>▲ MY PYRAMID</li>
+        <li>CREATE A LINK</li>
+        <li>MEMBERSHIPS</li>
+        </ul>
+    </div>
+   <main>
     <ul> 
-        <div class="hamburger-lines">
+        <div class="ham" class:active2={!isHidden} on:click={() => {isHidden = !isHidden}}>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <!-- <div class="hamburger-lines" >
             <span class="line line1"></span>
             <span class="line line2"></span>
             <span class="line line3"></span>
-        </div>  
+        </div>   -->
 
         <div class="menu-items">
         <a class="rectangle" href="/">
@@ -33,16 +55,19 @@
         {/if}
     </div>
     </ul>
-
+</main> 
 </nav>
 
 <script>
-
-import {  onAuthStateChanged, getAuth } from "firebase/auth";
+    
+	let isHidden = true
+    let kur = isHidden = true
+    import {  onAuthStateChanged, getAuth } from "firebase/auth";
         import { initializeApp } from 'firebase/app';
     let profilename 
     let profileimg
     let hidden 
+
     const firebaseConfig = {
   apiKey: "AIzaSyC33HF0D6Cp6VamA_VSDzSzLXLQkg8emB8",
   authDomain: "auth-59373.firebaseapp.com",
@@ -68,9 +93,118 @@ onAuthStateChanged(auth, (user) => {
 </script>
 
 <style>
-    nav{
+      .sidebar{
+    position: fixed;
+    width: 16em;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    height: 100%;
+    background-color: var(--purple-dark);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 8em;
+    justify-content:flex-start;
+    gap: 2em;
+    transition: all .5s ease-in-out;
+}
+.sidebar ul{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.sidebar li{
+    list-style: none;
+    width: 100%;
+    margin: 2em 0;
+    text-align: left;
+}
+.profile-container2{
+        width: 7em;
+        height: 3.4em;
+        position: relative;
+        display: flex;
+        font-size: 1em;
+        background-color: #f1f1f1;
+        border-radius: .2em;
+        justify-content: space-around;
+        padding: 0 .5em;
+        gap: 12%;
+        align-items: center;
+    }
+    .profile-container2 h1{
+        font-size: .8em;
+        /* position: absolute; */
+        /* width: 1em;
+        left: 0;
+        top: 0; */
+        margin: 0;
+        
+    }
+    .profile-container2 img {
+        border-radius: 50%;
+        margin: 0;
+        width: 2.1em;
+        border: 1px solid #875382;
+
+    }
+.line{
+        width: 1.2em;
+  height: 4.5px;
+  background-color: #ecf0f1;
+  display: block;
+  margin: 8px auto;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+    border-radius: 4em;
+  }
+  .ham.active2 .line:nth-child(2){
+    opacity: 0;
+  }
+  
+  .ham.active2 .line:nth-child(1){
+    -webkit-transform: translateY(13px) rotate(45deg);
+    -ms-transform: translateY(13px) rotate(45deg);
+    -o-transform: translateY(13px) rotate(45deg);
+    transform: translateY(13px) rotate(45deg);
+  }
+  
+  .ham.active2 .line:nth-child(3){
+    -webkit-transform: translateY(-13px) rotate(-45deg);
+    -ms-transform: translateY(-13px) rotate(-45deg);
+    -o-transform: translateY(-13px) rotate(-45deg);
+    transform: translateY(-13px) rotate(-45deg);
+  }
+  .ham{
+    position: relative;
+    cursor: pointer;
+    margin-left: .4em;
+    
+  }
+.active2{
+    /* transform: rotate(-180deg); */
+    -webkit-transition: all 1s ease-in-out;
+  -moz-transition: all .1s linear;
+  -o-transition: all .1s linear;
+  transition: all .5s ease-in-out;
+  opacity: 1;
+  
+  }
+.active{
+        background-color: var(--purple);
+        left: -17em;
+        transition: all .5s ease-in-out;
+    }
+
+
+    main{
         background: var(--purple);
         margin: 0;
+        width: 100%;
+        z-index: 49;
+        position: fixed;
     }
     .hamburger-lines .line {
         width: 1em;
@@ -81,8 +215,8 @@ onAuthStateChanged(auth, (user) => {
   border-radius: 10px;
 }
     .hamburger-lines {
-
    margin-left: 1em;
+   z-index: 9;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -161,6 +295,7 @@ onAuthStateChanged(auth, (user) => {
         gap: 12%;
         align-items: center;
     }
+
     .profile-container h1{
         font-size: .4em;
         /* position: absolute; */
@@ -177,4 +312,12 @@ onAuthStateChanged(auth, (user) => {
         border: 1px solid #875382;
 
     }
+    @media screen and (max-width: 780px) {
+.profile-container{
+    visibility: hidden;
+}
+.menu-items{
+    visibility: hidden;
+}
+}
 </style>
